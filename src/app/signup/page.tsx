@@ -1,21 +1,37 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { axios } from "axios";
 
 export default function Signup() {
+	const router = useRouter();
+
 	const [user, setUser] = React.useState({
 		email: "",
 		password: "",
 		username: "",
 	});
 
+	const [isButtonDisabled, setIsButtonDisabled] = React.useState(false);
+
+	useEffect(() => {
+		if (
+			user.email.length > 0 &&
+			user.password.length > 0 &&
+			user.username.length > 0
+		) {
+			setIsButtonDisabled(false);
+		} else {
+			setIsButtonDisabled(true);
+		}
+	}, [user]);
+
 	const onSignup = async () => {};
 
 	return (
-		<div className="flex flex-col justify-center items-center h-screen">
+		<div className="flex flex-col justify-center items-center h-screen bg-gray-500">
 			<h1 className="text-3xl font-bold">Signup</h1>
 			<label className="mt-4" htmlFor="username">
 				Username
@@ -51,10 +67,12 @@ export default function Signup() {
 				onChange={(e) => setUser({ ...user, password: e.target.value })}
 			/>
 			<button
-				className="my-4 border border-solid border-black p-2 rounded-xl w-[300px] font-bold text-black bg-gray-200"
+				className={`my-4 border border-solid border-black p-2 rounded-xl w-[300px] font-bold text-black ${
+					isButtonDisabled ? "bg-gray-400" : "bg-green-300"
+				}`}
 				onClick={onSignup}
 			>
-				Signup
+				{isButtonDisabled ? "Please fill all the fields" : "Signup"}
 			</button>
 			<Link href="/login">Login here</Link>
 		</div>
