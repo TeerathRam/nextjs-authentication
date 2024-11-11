@@ -1,21 +1,51 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { axios } from "axios";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function Signup() {
+	const router = useRouter();
+	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+
 	const [user, setUser] = React.useState({
 		email: "",
 		password: "",
 	});
 
-	const onLogin = async () => {};
+	useEffect(() => {
+		if (user.email.length > 0 && user.password.length > 0) {
+			setIsButtonDisabled(false);
+		} else {
+			setIsButtonDisabled(true);
+		}
+	}, [user]);
+
+	const onLogin = async () => {
+		try {
+			setIsLoading(true);
+			const res = await axios.post("/api/users/login", user);
+
+			console.log("Login success", res.data);
+			toast.success("Login success");
+
+			router.push("/profile");
+		} catch (error: any) {
+			console.log("User login failed", error);
+			toast.error(error.response.data.error);
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
 	return (
 		<div className="flex flex-col justify-center items-center h-screen">
-			<h1 className="text-3xl font-bold">Login</h1>
+			<h1 className="text-3xl font-bold">
+				{isLoading ? "Please wait" : "Login"}
+			</h1>
 			<label className="mt-4" htmlFor="email">
 				Email
 			</label>
@@ -39,7 +69,9 @@ export default function Signup() {
 				onChange={(e) => setUser({ ...user, password: e.target.value })}
 			/>
 			<button
-				className="mt-6 mb-4 border border-solid border-black p-2 rounded-xl w-[300px] font-bold text-black bg-gray-200"
+				className={`mt-6 mb-4 border border-solid border-black p-2 rounded-xl w-[300px] font-bold text-black ${
+					isButtonDisabled ? "bg-gray-400" : "bg-green-300"
+				}`}
 				onClick={onLogin}
 			>
 				Login
