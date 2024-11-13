@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { toast } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Signup() {
 	const router = useRouter();
@@ -35,12 +35,12 @@ export default function Signup() {
 			setLoading(true);
 			const res = await axios.post("/api/users/signup", user);
 
-			console.log("Signup success", res.data);
+			// console.log("Signup success", res.data);
 			toast.success("Signup successfully");
 
 			router.push("/login");
 		} catch (error: any) {
-			console.log("Signup failed", error);
+			// console.log("Signup failed", error);
 			toast.error(error.response.data.error);
 		} finally {
 			setLoading(false);
@@ -94,6 +94,7 @@ export default function Signup() {
 				{isButtonDisabled ? "Please fill all the fields" : "Signup"}
 			</button>
 			<Link href="/login">Login here</Link>
+			<Toaster />
 		</div>
 	);
 }

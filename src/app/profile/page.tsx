@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { toast } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -13,11 +13,11 @@ export default function Profile() {
 	const logout = async () => {
 		try {
 			await axios.get("/api/users/logout");
-			toast("Logout successfully");
+			toast.success("Logout successfully");
 			router.push("/login");
 		} catch (error: any) {
-			console.log("Logout failed", error);
-			toast(error.message);
+			// console.log("Logout failed", error);
+			toast.error(error.message);
 		}
 	};
 
@@ -25,9 +25,10 @@ export default function Profile() {
 		try {
 			const user = await axios.get("/api/users/loggedInUser");
 			setData(user.data.data._id);
+			toast.success("User details fetched");
 		} catch (error: any) {
-			console.log("Logout failed", error);
-			toast(error.message);
+			// console.log("Logout failed", error);
+			toast.error(error.message);
 		}
 	};
 
@@ -54,6 +55,7 @@ export default function Profile() {
 			>
 				Get User
 			</button>
+			<Toaster />
 		</div>
 	);
 }
