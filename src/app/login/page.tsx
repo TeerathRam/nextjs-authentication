@@ -35,7 +35,7 @@ export default function Signup() {
 			router.push("/profile");
 		} catch (error: any) {
 			console.log("User login failed", error);
-			toast.error(error.response.data.error);
+			toast.error(error.message);
 		} finally {
 			setIsLoading(false);
 		}
