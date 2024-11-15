@@ -16,7 +16,6 @@ export default function Profile() {
 			toast.success("Logout successfully");
 			router.push("/login");
 		} catch (error: any) {
-			// console.log("Logout failed", error);
 			toast.error(error.message);
 		}
 	};
@@ -27,7 +26,6 @@ export default function Profile() {
 			setData(user.data.data._id);
 			toast.success("User details fetched");
 		} catch (error: any) {
-			// console.log("Logout failed", error);
 			toast.error(error.message);
 		}
 	};

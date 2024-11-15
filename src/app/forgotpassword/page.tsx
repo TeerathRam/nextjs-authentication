@@ -33,7 +33,7 @@ export default function ForgotPassword() {
 			<div className="flex flex-col gap-4">
 				<input
 					type="email"
-					className="p-2 border border-gray-300 rounded-md"
+					className="p-2 border border-gray-300 rounded-md text-black"
 					placeholder="Email"
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}

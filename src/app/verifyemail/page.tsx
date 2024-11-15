@@ -12,13 +12,14 @@ export default function VerifyEmail() {
 
 	const verifyUserEmail = async () => {
 		try {
-			await axios.post("/api/users/verifyemail", { token });
+			const res = await axios.post("/api/users/verifyemail", { token });
 			setIsVerified(true);
 		} catch (error: any) {
 			setError(error.response.data.error);
 			toast.error(error.response.data.error);
 		}
 	};
+
 	useEffect(() => {
 		const urlToken = window.location.search.split("=")[1];
 		setToken(urlToken || "");

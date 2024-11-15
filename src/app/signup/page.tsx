@@ -7,6 +7,8 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function Signup() {
+	const [isButtonDisabled, setIsButtonDisabled] = React.useState(false);
+	const [loading, setLoading] = React.useState(false);
 	const router = useRouter();
 
 	const [user, setUser] = React.useState({
@@ -14,9 +16,6 @@ export default function Signup() {
 		password: "",
 		username: "",
 	});
-
-	const [isButtonDisabled, setIsButtonDisabled] = React.useState(false);
-	const [loading, setLoading] = React.useState(false);
 
 	useEffect(() => {
 		if (

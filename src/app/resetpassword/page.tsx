@@ -23,7 +23,7 @@ export default function ResetPassword() {
 				password,
 			});
 			toast.success(response.data.message);
-			router.push("/profile");
+			router.push("/login");
 		} catch (error: any) {
 			toast.error(error.response.data.error);
 		}
@@ -32,12 +32,12 @@ export default function ResetPassword() {
 	return (
 		<div className="min-h-screen flex flex-col justify-center items-center">
 			<h1 className="text-3xl font-bold">Reset Password</h1>
-			<div className="flex flex-col gap-4">
+			<div className="flex flex-col gap-4 m-4">
 				<label htmlFor="password">Enter New Password</label>
 				<input
 					type="password"
 					value={password}
-					className="p-2 border border-gray-300 rounded-md"
+					className="p-2 border border-gray-300 rounded-md text-black"
 					placeholder="Password"
 					onChange={(e) => setPassword(e.target.value)}
 				/>

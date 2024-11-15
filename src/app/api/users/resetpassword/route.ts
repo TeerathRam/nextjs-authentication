@@ -35,6 +35,7 @@ export async function POST(request: NextRequest) {
 			{
 				message: "Password reset successfully",
 				success: true,
+				data: user,
 			},
 			{ status: 200 }
 		);

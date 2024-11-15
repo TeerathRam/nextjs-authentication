@@ -8,7 +8,6 @@ export async function POST(request: NextRequest) {
 	try {
 		const reqBody = await request.json();
 		const token = reqBody.token;
-		console.log("TOKEN", token);
 
 		const user = await User.findOne({
 			verifyToken: token,

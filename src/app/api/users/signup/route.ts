@@ -11,8 +11,6 @@ export async function POST(request: NextRequest) {
 		const reqBody = await request.json();
 		const { username, password, email } = reqBody;
 
-		console.log("REQBODY", reqBody);
-
 		// Check for user
 		const user = await User.findOne({ email });
 		if (user) {
@@ -33,9 +31,12 @@ export async function POST(request: NextRequest) {
 		});
 
 		const savedUser = await newUser.save();
-		console.log("SAVED USER", savedUser);
 
-		await sendEmail({ email, emailType: "VERIFY", userId: savedUser._id });
+		await sendEmail({
+			email,
+			emailType: "VERIFY",
+			userId: savedUser._id,
+		});
 
 		return NextResponse.json(
 			{

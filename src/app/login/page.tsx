@@ -30,7 +30,6 @@ export default function Login() {
 			const res = await axios.post("/api/users/login", user);
 
 			toast.success(res.data.message);
-
 			router.push("/profile");
 		} catch (error: any) {
 			toast.error(error.response.data.error);
@@ -75,6 +74,7 @@ export default function Login() {
 				Login
 			</button>
 			<Link href="/signup">Signup here</Link>
+			<Link href="/forgotpassword">forgot password</Link>
 			<Toaster />
 		</div>
 	);
