@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 
-export default function Signup() {
+export default function Login() {
 	const router = useRouter();
 	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -29,7 +29,6 @@ export default function Signup() {
 			setIsLoading(true);
 			const res = await axios.post("/api/users/login", user);
 
-			console.log("Login success", res.data);
 			toast.success(res.data.message);
 
 			router.push("/profile");

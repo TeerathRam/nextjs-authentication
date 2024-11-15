@@ -3,7 +3,6 @@ import User from "@/models/userModel";
 import { NextResponse, NextRequest } from "next/server";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
-import toast from "react-hot-toast";
 
 connectDb();
 

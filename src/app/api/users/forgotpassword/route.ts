@@ -1,38 +1,27 @@
 import User from "@/models/userModel";
 import connectDb from "@/dbConfig/dbConfig";
 import { NextResponse, NextRequest } from "next/server";
+import { sendEmail } from "@/helpers/mailer";
 
 connectDb();
 
 export async function POST(request: NextRequest) {
 	try {
 		const reqBody = await request.json();
-		const token = reqBody.token;
-		console.log("TOKEN", token);
+		const { email } = reqBody;
 
-		const user = await User.findOne({
-			verifyToken: token,
-			verifyTokenExpiry: { $gt: Date.now() },
-		});
+		const user = await User.findOne({ email });
 
 		if (!user) {
 			return NextResponse.json(
-				{ error: "Invalid or expired token" },
+				{ error: "User with email not found" },
 				{ status: 400 }
 			);
 		}
 
-		user.isVerified = true;
-		user.verifyToken = undefined;
-		user.verifyTokenExpiry = undefined;
-
-		await user.save();
-
+		await sendEmail({ email, emailType: "RESET", userId: user._id });
 		return NextResponse.json(
-			{
-				message: "Email verified successfully",
-				success: true,
-			},
+			{ message: "Email sent successfully" },
 			{ status: 200 }
 		);
 	} catch (error: any) {

@@ -1,18 +1,21 @@
 import User from "@/models/userModel";
 import connectDb from "@/dbConfig/dbConfig";
 import { NextResponse, NextRequest } from "next/server";
+import bcryptjs from "bcryptjs";
 
 connectDb();
 
 export async function POST(request: NextRequest) {
 	try {
 		const reqBody = await request.json();
-		const token = reqBody.token;
-		console.log("TOKEN", token);
+		const { password, token } = reqBody;
+
+		const salt = await bcryptjs.genSalt(10);
+		const hashedPassword = await bcryptjs.hash(password, salt);
 
 		const user = await User.findOne({
-			verifyToken: token,
-			verifyTokenExpiry: { $gt: Date.now() },
+			forgotPasswordToken: token,
+			forgotPasswordTokenExpiry: { $gt: Date.now() },
 		});
 
 		if (!user) {
@@ -22,15 +25,15 @@ export async function POST(request: NextRequest) {
 			);
 		}
 
-		user.isVerified = true;
-		user.verifyToken = undefined;
-		user.verifyTokenExpiry = undefined;
+		user.password = hashedPassword;
+		user.forgotPasswordToken = undefined;
+		user.forgotPasswordTokenExpiry = undefined;
 
 		await user.save();
 
 		return NextResponse.json(
 			{
-				message: "Email verified successfully",
+				message: "Password reset successfully",
 				success: true,
 			},
 			{ status: 200 }
